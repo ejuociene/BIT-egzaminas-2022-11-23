@@ -32,7 +32,8 @@ export const registerValidator = (req, res, next) => {
 		firstName: Joi.string().min(1).max(255).required(),
 		lastName: Joi.string().min(1).max(255).required(),
 		email: Joi.string().email().required(),
-		password: Joi.string().min(5).max(12).required()
+		password: Joi.string().min(5).max(12).required(),
+		role: Joi.number().allow('')
 	});
 	validate(schema, req, res, next);
 };
@@ -44,5 +45,19 @@ export const loginValidator = (req, res, next) => {
 	});
 	validate(schema, req, res, next);
 };
+
+export const booksValidator = (req, res, next) => {
+	const schema = Joi.object({
+		title: Joi.string().min(1).required(),
+		author: Joi.string().min(1).required(),
+		ISBN: Joi.string().min(1).required(),
+		image: Joi.string().allow(''),
+		category: Joi.string().required(),
+		isReserved: Joi.boolean().allow(''),
+		reservationDate: Joi.date().allow(''),
+		extendedTimes: Joi.number().integer().allow(""),
+	});
+	validate(schema, req, res, next);
+}
 
 export default validate;

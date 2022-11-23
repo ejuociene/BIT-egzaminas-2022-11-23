@@ -29,7 +29,7 @@ const AdminBooks = () => {
 				setRefresh((prevState) => !prevState);
 				window.scrollTo(0, 0);
 				if (error.response.status === 401) {
-					navigate('/login');
+					navigate('/');
 				}
 			});
 	};

@@ -1,17 +1,28 @@
 import express from 'express';
 import db from '../database/connect.js';
 import upload from "../middleware/multer.js"
-// import { booksValidator } from '../middleware/validate.js';
-// import { adminAuth } from '../middleware/auth.js';
+import { booksValidator } from '../middleware/validate.js';
+import { adminAuth, auth } from '../middleware/auth.js';
+import {Op} from 'sequelize'
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-	// const options = {};
-	// if (req.query.sort === '1') options.order = [ [ 'name', 'ASC' ] ];
-	// if (req.query.sort === '2') options.order = [ [ 'name', 'DESC' ] ];
+router.get('/', auth, async (req, res) => {
+	const options = {};
+	if (req.query.filter && req.query.filter !== "0") {
+		{options.where = { category: req.query.filter }}}
+	if (req.query.search) {
+		options.where = {
+			...options.where,
+			[Op.or]: [
+				{ title: { [Op.like]: `%${req.query.search}%` } },
+				{ author: { [Op.like]: `%${req.query.search}%` } },
+				{ ISBN: { [Op.like]: `%${req.query.search}%` } }
+			]
+		};
+	}
 	try {
-		const books = await db.Books.findAll();
+		const books = await db.Books.findAll(options);
 		res.json(books);
 	} catch (err) {
 		console.log(err);
@@ -19,7 +30,7 @@ router.get('/', async (req, res) => {
 	}
 });
 
-router.get('/user', async (req, res) => {
+router.get('/user', auth, async (req, res) => {
 	try {
 		const books = await db.Books.findAll({ where: { userId: req.session.user.id, isReserved: true  } });
 		res.json(books);
@@ -43,11 +54,7 @@ router.get('/categories', async (req, res) => {
 	}
 });
 
-router.post('/new', 
-upload.single("image"),
-// adminAuth, 
-// booksValidator, 
-async (req, res) => {
+router.post('/new', upload.single("image"), adminAuth, booksValidator, async (req, res) => {
     console.log(req.body)
 	try {
         if (req.file) req.body.image = '/uploads/' + req.file.filename;
@@ -59,9 +66,7 @@ async (req, res) => {
 	}
 });
 
-router.get('/:id', 
-// adminAuth, 
-async (req, res) => {
+router.get('/:id', adminAuth, async (req, res) => {
 	try {
 		const book = await db.Books.findByPk(req.params.id)
 		res.json(book);
@@ -71,10 +76,7 @@ async (req, res) => {
 	}
 });
 
-router.put('/edit/:id', 
-// adminAuth, 
-// booksValidator,
- async (req, res) => {
+router.put('/edit/:id', adminAuth, booksValidator, async (req, res) => {
 	try {
 		const book = await db.Books.findByPk(req.params.id);
 		await book.update(req.body);
@@ -85,7 +87,7 @@ router.put('/edit/:id',
 	}
 });
 
-router.put('/reserve/:id', async (req, res) => {
+router.put('/reserve/:id', auth, async (req, res) => {
 	try {
 		const date = new Date();
 		date.setDate(date.getDate() + 7);
@@ -103,7 +105,7 @@ router.put('/reserve/:id', async (req, res) => {
 });
 
 
-router.put('/return/:id', async (req, res) => {
+router.put('/return/:id', auth, async (req, res) => {
 	try {
 		const book = await db.Books.findByPk(req.params.id);
 		await book.update({
@@ -117,7 +119,7 @@ router.put('/return/:id', async (req, res) => {
 	}
 });
 
-router.put('/extend/:id', async (req, res) => {
+router.put('/extend/:id', auth, async (req, res) => {
 	try {
 		const book = await db.Books.findByPk(req.params.id);
 		const reservedDate = new Date(book.reservationDate)
@@ -136,9 +138,7 @@ router.put('/extend/:id', async (req, res) => {
 	}
 });
 
-router.delete('/delete/:id', 
-// adminAuth, 
-async (req, res) => {
+router.delete('/delete/:id', adminAuth, async (req, res) => {
 	try {
 		const book = await db.Books.findByPk(req.params.id);
 		await book.destroy();

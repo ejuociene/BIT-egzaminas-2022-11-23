@@ -27,7 +27,7 @@ const Register = () => {
   };
   return (
     <main className="container">
-      <h1 className="title">Registruotis:</h1>
+      <h1 className="form-title">Registruotis:</h1>
       <form className="form" onSubmit={(e) => handleSubmit(e)}>
         <div className="form--item">
           <label>Vardas:</label>

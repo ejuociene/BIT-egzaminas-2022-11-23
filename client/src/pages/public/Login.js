@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import MainContext from "../../context/MainContext";
 
 const Login = () => {
-  const { setUserInfo, userInfo, setAlert, setRefresh } =
+  const { userInfo, setAlert, setRefresh } =
     useContext(MainContext);
   const [form, setForm] = useState({
     email: "",
@@ -35,7 +35,7 @@ const Login = () => {
   return (
     <main className="container">
       <h1 className="intro-heading">Sveiki atvykę į e-biblioteką!</h1>
-      <h2 className="title">Prisijungti prie savo paskyros:</h2>
+      <h2 className="form-title">Prisijungti prie savo paskyros:</h2>
       <form className="form" onSubmit={(e) => handleSubmit(e)}>
         <div className="form--item">
           <label>El. paštas:</label>

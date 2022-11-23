@@ -1,14 +1,13 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import db from '../database/connect.js';
-// import { loginValidator, registerValidator } from '../middleware/validate.js';
+import { loginValidator, registerValidator } from '../middleware/validate.js';
+import { adminAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 const saltRounds = 10;
 
-router.post('/register', 
-// registerValidator, 
-async (req, res) => {
+router.post('/register', registerValidator, async (req, res) => {
 	try {
 		const userExists = await db.Users.findOne({ where: { email: req.body.email } });
 		if (userExists) {
@@ -24,9 +23,7 @@ async (req, res) => {
 	}
 });
 
-router.post('/login', 
-// loginValidator, 
-async (req, res) => {
+router.post('/login', loginValidator, async (req, res) => {
 	try {
 		const user = await db.Users.findOne({ where: { email: req.body.email } });
 		if (!user) {
@@ -73,23 +70,18 @@ router.get('/', async (req, res) => {
 });
 
 
-router.put('/edit/:id', 
-// adminAuth, 
-// booksValidator,
- async (req, res) => {
+router.put('/edit/:id', adminAuth, registerValidator, async (req, res) => {
 	try {
 		const user = await db.Users.findByPk(req.params.id);
 		await user.update(req.body);
-		res.send('Knygos informacija sėkmingai atnaujinta');
+		res.send('Vartotojo informacija sėkmingai atnaujinta');
 	} catch (err) {
 		console.log(err);
 		res.status(500).send('Įvyko serverio klaida');
 	}
 });
 
-router.delete('/delete/:id', 
-// adminAuth, 
-async (req, res) => {
+router.delete('/delete/:id', adminAuth, async (req, res) => {
 	try {
 		const user = await db.Users.findByPk(req.params.id);
 		await user.destroy();
@@ -100,9 +92,7 @@ async (req, res) => {
 	}
 });
 
-router.get('/:id', 
-// adminAuth, 
-async (req, res) => {
+router.get('/:id', adminAuth, async (req, res) => {
 	try {
 		const user = await db.Users.findByPk(req.params.id)
 		res.json(user);

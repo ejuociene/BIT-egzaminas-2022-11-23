@@ -1,0 +1,67 @@
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+img,
+strike,
+strong,
+var,
+b,
+center,
+ol,
+ul,
+li,
+form,
+label,
+table,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+footer,
+header,
+main,
+menu,
+nav,
+section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+}
+
+:root {
+  --cb-light: 230, 232, 230;
+  --cc-grey: #848484;
+  --cc-darkgreen: #4c5d29;
+  --cc-green: 125, 147, 69;
+  --cc-yellow: #ffc14a;
+
+  --svg-filter: invert(17%) sepia(44%) saturate(330%) hue-rotate(60deg)
+    brightness(89%) contrast(85%);
+  --svg-hover: invert(44%) sepia(14%) saturate(987%) hue-rotate(46deg)
+    brightness(102%) contrast(84%);
+
+  --ff-text: 'Montserrat', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--ff-text);
+  color: rgb(var(--c-dark-green));
+}

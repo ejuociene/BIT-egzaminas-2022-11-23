@@ -38,7 +38,7 @@ const EditBook = () => {
 			formData.append(key, book[key]);
 		}
 		axios
-			.put(`/api/books/edit/${id}`, formData)
+			.put(`/api/books/edit/${id}`, book)
 			.then((resp) => {
 				setAlert({ message: resp.data, status: 'success' });
 				navigate('/admin');

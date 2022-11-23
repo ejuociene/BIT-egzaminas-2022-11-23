@@ -78,6 +78,7 @@ router.get('/:id', adminAuth, async (req, res) => {
 
 router.put('/edit/:id', adminAuth, booksValidator, async (req, res) => {
 	try {
+		console.log(req.body)
 		const book = await db.Books.findByPk(req.params.id);
 		await book.update(req.body);
 		res.send('Knygos informacija sėkmingai atnaujinta');

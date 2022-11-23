@@ -163,7 +163,7 @@ flex-wrap: wrap;
 }
 
 .form--btn {
-  width: 6rem;
+  width: 7rem;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   border: none;
@@ -172,6 +172,7 @@ flex-wrap: wrap;
   font-family: var(--ff-text);
   background-color: var(--cc-darkgreen);
   color: white;
+  font-size: 1rem;
 }
 
 .form--btn:hover,

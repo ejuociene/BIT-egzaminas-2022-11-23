@@ -7,26 +7,29 @@ const Books = () => {
 	const { setAlert, userInfo } = useContext(MainContext);
 	const navigate = useNavigate()
 	const [ sort, setSort ] = useState('');
+	const [categories, setCategories] = useState([])
 	const [ books, setBooks ] = useState([]);
+	const [refresh, setRefresh] = useState(false)
 	useEffect(
 		() => {
 			let url = '/api/books';
-			// if (sort == '1' || sort == '2') {
-			// 	url += '?sort=' + sort;
-			// }
+			if (sort == '1' || sort == '2') {
+				url += '?sort=' + sort;
+			}
 			axios.get(url).then((resp) => setBooks(resp.data)).catch((error) => {
 				console.log(error);
 				setAlert({ message: error.response.data, status: 'danger' });
 				window.scrollTo(0, 0);
 			});
 		},
-		[ sort ]
+		[ sort, refresh ]
 	);
 	const handleReservation = (id) => {
 		axios
 			.put(`/api/books/reserve/${id}`)
 			.then((resp) => {
 				setAlert({ message: resp.data, status: 'success' });
+				setRefresh(prevState => !prevState)
 				navigate('/books');
 			})
 			.catch((error) => {
@@ -42,12 +45,14 @@ const Books = () => {
 	return (
 		<div className="container">
 			<div className="heading">
-				<h1 className="title">Knygų sąrašas</h1>
-				{/* <select className="form-select narrow-input" onChange={(e) => setSort(e.target.value)}>
+				<h1 className="intro-heading">Knygų sąrašas</h1>
+				<form>
+				<select className="form-select narrow-input" onChange={(e) => setSort(e.target.value)}>
 					<option>Numatytasis</option>
 					<option value="1">Pagal pavadinimą A-Ž</option>
 					<option value="2">Pagal pavadinimą Ž-A</option>
-				</select> */}
+				</select>
+				</form>
 			</div>
 			<div className="books-list">
 				{books &&
@@ -59,7 +64,7 @@ const Books = () => {
 								<h4 className='book-author'>{book.author}</h4>
 								<p className='book-category'>{book.category}</p>
 								<p className='book-ISBN'>ISBN: {book.ISBN}</p>
-								{book.reservationDate ? 
+								{book.isReserved ? 
 								<p className='reserved'>Knyga rezervuota iki {book.reservationDate}</p>
 							:
 							<button className="btn book-btn" onClick={() => handleReservation(book.id)}>Rezervuoti</button>}

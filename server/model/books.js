@@ -21,11 +21,16 @@ const Books = (sequelize) => {
 			type: DataTypes.STRING,
 			allowNull: false
 		},
+		isReserved: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false
+		},
 		reservationDate: {
 			type: DataTypes.DATEONLY
 		},
 		extendedTimes: {
-			type: DataTypes.INTEGER
+			type: DataTypes.INTEGER,
+			defaultValue: 0
 		}
 	};
 	return sequelize.define('books', Schema);

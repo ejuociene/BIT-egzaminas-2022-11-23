@@ -19,6 +19,30 @@ router.get('/', async (req, res) => {
 	}
 });
 
+router.get('/user', async (req, res) => {
+	try {
+		const books = await db.Books.findAll({ where: { userId: req.session.user.id, isReserved: true  } });
+		res.json(books);
+	} catch (err) {
+		console.log(err);
+		res.status(500).send('Įvyko serverio klaida');
+	}
+});
+
+router.get('/categories', async (req, res) => {
+	try {
+		let categories = await db.Books.findAll({ attributes: [ 'category' ] });
+		categories = categories.map((item) => item.category);
+		const unique = (value, index, self) => {
+			return self.indexOf(value) === index;
+		};
+		const uniqueCategories = categories.filter(unique);
+		res.json(uniqueCategories);
+	} catch (err) {
+		res.status(500).send('Įvyko serverio klaida');
+	}
+});
+
 router.post('/new', 
 upload.single("image"),
 // adminAuth, 
@@ -61,18 +85,15 @@ router.put('/edit/:id',
 	}
 });
 
-router.put('/reserve/:id', 
-// adminAuth, 
-// booksValidator,
- async (req, res) => {
+router.put('/reserve/:id', async (req, res) => {
 	try {
 		const date = new Date();
 		date.setDate(date.getDate() + 7);
-		console.log(date);
 		const book = await db.Books.findByPk(req.params.id);
 		await book.update({
-			userId: req.session.userId,
-			reservationDate: date
+			userId: req.session.user.id,
+			reservationDate: date,
+			isReserved: true
 		});
 		res.send('Knyga sėkmingai rezervuota');
 	} catch (err) {
@@ -82,6 +103,38 @@ router.put('/reserve/:id',
 });
 
 
+router.put('/return/:id', async (req, res) => {
+	try {
+		const book = await db.Books.findByPk(req.params.id);
+		await book.update({
+			isReserved: 0,
+			extendedTimes: 0
+		});
+		res.send('Knyga sėkmingai grąžinta');
+	} catch (err) {
+		console.log(err);
+		res.status(500).send('Įvyko serverio klaida');
+	}
+});
+
+router.put('/extend/:id', async (req, res) => {
+	try {
+		const book = await db.Books.findByPk(req.params.id);
+		const reservedDate = new Date(book.reservationDate)
+		const newDate = reservedDate.setDate(reservedDate.getDate() + 7);
+		if (book.extendedTimes === 2) {
+			throw "Daugiau pratęsti negalima" }
+		const extendedTimesUpdated = book.extendedTimes + 1
+		await book.update({
+			reservationDate: newDate,
+			extendedTimes: extendedTimesUpdated
+		});
+		res.send('Knyga sėkmingai pratęsta');
+	} catch (err) {
+		console.log(err);
+		res.status(500).send('Įvyko serverio klaida');
+	}
+});
 
 router.delete('/delete/:id', 
 // adminAuth, 

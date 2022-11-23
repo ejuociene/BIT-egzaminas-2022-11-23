@@ -10,7 +10,7 @@ const Header = () => {
   const navigate = useNavigate();
   const logout = () => {
     axios
-      .get("api/admin/logout")
+      .get("api/users/logout")
       .then((resp) => {
         setUserInfo({});
         setAlert({ message: resp.data, status: "success" });

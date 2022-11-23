@@ -11,6 +11,7 @@ import Admin from "./pages/admin/Admin";
 import EditBook from "./pages/admin/EditBook";
 import NewBook from "./pages/admin/NewBook";
 import EditUser from "./pages/admin/EditUser";
+import MyAccount from "./pages/public/MyAccount";
 import "./App.css";
 
 function App() {
@@ -41,8 +42,11 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/books" element={<Books />} />
-            {/* <Route path="*" element={<Ideas />} /> */}
+          {userInfo.id && 
+          <>
+          <Route path="/books" element={<Books />} />
+          <Route path="/myAccount" element={<MyAccount />} />
+          </>}
            {userInfo.role === 1 && 
             <>
             <Route path="/admin" element={<Admin />}/>

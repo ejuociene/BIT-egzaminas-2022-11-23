@@ -157,8 +157,13 @@ padding-bottom: 2rem;
   margin-top: 2em;
 }
 
+.reserved {
+  font-size: .8rem;
+  margin-top: 2em;
+  color: #bc4b51
+}
+
 .disabled-btn {
-  width: 20rem;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   border: none;

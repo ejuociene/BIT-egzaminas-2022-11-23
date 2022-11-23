@@ -36,6 +36,7 @@ async (req, res) => {
 			req.session.user = {
 				id: user.id,
 				email: user.email,
+				role: user.role
 			};
 			return res.send('Prisijungimas sėkmingas');
 		} else {
@@ -58,6 +59,56 @@ router.get('/check-auth', async (req, res) => {
 	} catch (err) {
 		console.log(err);
 		res.send('Įvyko serverio klaida');
+	}
+});
+
+router.get('/', async (req, res) => {
+	try {
+		const users = await db.Users.findAll();
+		res.json(users);
+	} catch (err) {
+		console.log(err);
+		res.status(500).send('Įvyko serverio klaida');
+	}
+});
+
+
+router.put('/edit/:id', 
+// adminAuth, 
+// booksValidator,
+ async (req, res) => {
+	try {
+		const user = await db.Users.findByPk(req.params.id);
+		await user.update(req.body);
+		res.send('Knygos informacija sėkmingai atnaujinta');
+	} catch (err) {
+		console.log(err);
+		res.status(500).send('Įvyko serverio klaida');
+	}
+});
+
+router.delete('/delete/:id', 
+// adminAuth, 
+async (req, res) => {
+	try {
+		const user = await db.Users.findByPk(req.params.id);
+		await user.destroy();
+		res.send('Knyga ištrintas');
+	} catch (err) {
+		console.log(err);
+		res.status(500).send('Įvyko serverio klaida');
+	}
+});
+
+router.get('/:id', 
+// adminAuth, 
+async (req, res) => {
+	try {
+		const user = await db.Users.findByPk(req.params.id)
+		res.json(user);
+	} catch (err) {
+		console.log(err);
+		res.status(500).send('Įvyko serverio klaida');
 	}
 });
 

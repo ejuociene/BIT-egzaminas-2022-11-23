@@ -9,21 +9,11 @@
 }
 
 .link:hover {
-  color: rgb(var(--c-light-green));
+  color: grey;
 }
 
 .container {
   margin: 2rem 10rem;
-}
-
-.intro {
-  width: 85rem;
-  height: 25rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 3rem;
-  margin-bottom: 3rem;
 }
 
 .intro-heading {
@@ -32,91 +22,45 @@ font-weight: 800;
 padding-bottom: 2rem;
 }
 
-.intro-img {
-  height: 30rem
-}
-
-.heading {
+.books-list {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-.title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  font-family: var(--ff-text);
-  margin: 1rem 0 2rem 0;
-}
-
-.idea-container {
-  display: flex;
-  flex-direction: column;
   gap: 2rem;
 }
 
-.idea-card {
-  width: 100rem;
+.book-card {
+  width: 18rem;
   display: flex;
+  flex-direction: column;
   background-color: rgba(var(--cb-light), 0.4);
   padding: 1rem;
   border-radius: 1rem;
-  gap: 1rem;
 }
 
-.completed-card {
-  width: 100rem;
-  display: flex;
-  background-color: rgba(var(--cc-green), 0.2);
-  padding: 1rem;
-  border-radius: 1rem;
-  gap: 1rem;
-}
-
-
-.idea-img {
-  max-width: 20rem;
-  height: auto;
-  display: block;
+.book-img {
+  height: 25em;
   object-fit: cover;
-  aspect-ratio: 1;
 }
 
-.idea-info {
-  width: 35rem;
-  padding: 1rem;
-}
-
-.idea-header {
-  display: flex;
-  justify-content: space-between;
-}
-
-.idea-text {
-  margin-top: 2rem;
-  white-space: pre-line;
-}
-
-.idea-fundings-container {
-  margin-left: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.funder-table > th, td {
-  padding-right: 1rem;
-  padding-bottom: 0.5rem;
-  text-align: left;
-}
-
-.funder-table > thead {
+.book-title {
+  font-size: 1.3rem;
   font-weight: 600;
-  height: 2rem;
-  text-align: left;
+  margin-top: 1em;
+}
 
+.book-author {
+  margin-top: 1em;
+  font-size: 1rem;
+  font-weight: 600;
+}
 
+.book-ISBN {
+  font-size: 0.7rem;
+  margin-top: .8em;
+}
+
+.book-category {
+  margin-top: 1em;
+  font-size: .8em;
 }
 
 .form {
@@ -138,6 +82,14 @@ padding-bottom: 2rem;
 }
 
 .form-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid lightgrey;
+  border-radius: 0.5rem;
+  font-family: var(--ff-text);
+}
+
+.form-select {
   width: 100%;
   padding: 0.8rem 1rem;
   border: 1px solid lightgrey;
@@ -189,21 +141,21 @@ padding-bottom: 2rem;
 
 .form--btn:hover,
 .btn:hover {
-  background-color: rgb(var(--cc-green));
+  background-color: #698050;
+  color: white
 }
 
 .btn {
-  width: 20rem;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   border: none;
   display: block;
   cursor: pointer;
-  font-family: var(--ff-text);
-  background-color: var(--cc-darkgreen);
-  color: white;
+  font-family: inherit;
+  background-color: #BBD099;
+  color: black;
+  margin-top: 2em;
 }
-
 
 .disabled-btn {
   width: 20rem;
@@ -249,3 +201,100 @@ border-radius: 1rem;
   gap: 2rem;
 }
 
+.admin-section {
+  margin-bottom: 5em;
+}
+
+
+/* TABLE */
+
+
+.table {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+
+th {
+	font-weight: 800;
+	text-align: left;
+}
+
+.narrow {
+	width: 8%;
+	text-align: center;
+}
+
+.btn-row {
+	width: 7rem;
+	gap: 1rem;
+}
+
+tbody tr:nth-child(odd) {
+	background-color: rgba(var(--c-light), 0.7);
+}
+
+th,
+td {
+	line-height: 3rem;
+	vertical-align: middle;
+}
+
+tbody tr:hover,
+tbody tr:nth-child(odd):hover {
+	background-color: #F6EEE3;
+}
+
+.inline-btn {
+	font-family: inherit;
+  color: black;
+	border: none;
+	padding: 0.4rem 1rem;
+	border-radius: 0.5rem;
+	cursor: pointer;
+	background-color: #EFE0B7
+}
+
+.inline-btn:hover {
+	background-color: #BBD099;
+}
+
+.table-cell {
+	display: flex;
+	align-items: center;
+}
+
+.table-link {
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
+}
+
+.table-link:hover {
+	font-weight: 800;
+}
+
+
+.table-heading {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+  margin-bottom: 1em;
+  align-items: center;
+}
+
+.table-title {
+  font-size: 1.5rem
+}
+
+.add-new {
+  font-size: .8rem;
+}
+
+.highlight {
+  font-weight: 600;
+}
+
+.small-icon {
+  width: 50px;
+}

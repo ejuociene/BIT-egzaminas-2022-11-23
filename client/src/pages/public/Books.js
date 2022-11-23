@@ -2,16 +2,15 @@ import { useState, useEffect, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import MainContext from '../../context/MainContext';
-import addressImg from '../../images/address.svg';
-import phoneImg from '../../images/phone.svg';
 
 const Books = () => {
 	const { setAlert, userInfo } = useContext(MainContext);
+	const navigate = useNavigate()
 	const [ sort, setSort ] = useState('');
-	const [ salons, setBooks ] = useState([]);
+	const [ books, setBooks ] = useState([]);
 	useEffect(
 		() => {
-			let url = '/api/books/';
+			let url = '/api/books';
 			// if (sort == '1' || sort == '2') {
 			// 	url += '?sort=' + sort;
 			// }
@@ -23,6 +22,23 @@ const Books = () => {
 		},
 		[ sort ]
 	);
+	const handleReservation = (id) => {
+		axios
+			.put(`/api/books/reserve/${id}`)
+			.then((resp) => {
+				setAlert({ message: resp.data, status: 'success' });
+				navigate('/books');
+			})
+			.catch((error) => {
+				console.log(error);
+				setAlert({ message: error.response.data, status: 'danger' });
+				window.scrollTo(0, 0);
+				if (error.response.status === 401) {
+					navigate('/books');
+				}
+			});
+	};
+	console.log(books)
 	return (
 		<div className="container">
 			<div className="heading">
@@ -37,19 +53,16 @@ const Books = () => {
 				{books &&
 					books.map((book) => {
 						return (
-							<div key={book.id} className="books-card">
-								<h2 className="title">{book.title}</h2>
-								{/* <h4 className="info-text">
-									<img src={addressImg} alt="address" className="info-icon" />
-									{salon.address}
-								</h4>
-								<h4 className="info-text">
-									<img src={phoneImg} alt="phone" className="info-icon" />
-									{salon.phone}
-								</h4>
-								<Link to={userInfo.id ? '/new-order/' + salon.id : '/'} className="link">
-									<button className="form--btn long">Rezervuoti laiką </button>
-								</Link> */}
+							<div key={book.id} className="book-card">
+								<img src={book.image} alt={book.title} className="book-img"/> 
+								<h3 className="book-title">{book.title}</h3>
+								<h4 className='book-author'>{book.author}</h4>
+								<p className='book-category'>{book.category}</p>
+								<p className='book-ISBN'>ISBN: {book.ISBN}</p>
+								{book.reservationDate ? 
+								<p className='reserved'>Knyga rezervuota iki {book.reservationDate}</p>
+							:
+							<button className="btn book-btn" onClick={() => handleReservation(book.id)}>Rezervuoti</button>}
 							</div>
 						);
 					})}

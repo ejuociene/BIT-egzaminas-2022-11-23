@@ -4,8 +4,13 @@ import axios from "axios";
 import MainContext from "./context/MainContext";
 import Header from "./components/Header/Header";
 import Alert from "./components/Alert/Alert";
+import Books from "./pages/public/Books"
 import Login from "./pages/public/Login";
 import Register from "./pages/public/Register";
+import Admin from "./pages/admin/Admin";
+import EditBook from "./pages/admin/EditBook";
+import NewBook from "./pages/admin/NewBook";
+import EditUser from "./pages/admin/EditUser";
 import "./App.css";
 
 function App() {
@@ -36,9 +41,16 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            {/* <Route path="/books" element={<Books />} /> */}
+            <Route path="/books" element={<Books />} />
             {/* <Route path="*" element={<Ideas />} /> */}
-           {/* {userInfo.id && <Route path="/admin" element={<Admin />} />} */}
+           {userInfo.role === 1 && 
+            <>
+            <Route path="/admin" element={<Admin />}/>
+            <Route path="/books/new" element={<NewBook />}/>
+            <Route path="/books/edit/:id" element={<EditBook />}/>
+            <Route path="/user/edit/:id" element={<EditUser />}/>
+            </>
+            }
           </Routes>
         </div>
       </MainContext.Provider>

@@ -61,13 +61,35 @@ router.put('/edit/:id',
 	}
 });
 
+router.put('/reserve/:id', 
+// adminAuth, 
+// booksValidator,
+ async (req, res) => {
+	try {
+		const date = new Date();
+		date.setDate(date.getDate() + 7);
+		console.log(date);
+		const book = await db.Books.findByPk(req.params.id);
+		await book.update({
+			userId: req.session.userId,
+			reservationDate: date
+		});
+		res.send('Knyga sėkmingai rezervuota');
+	} catch (err) {
+		console.log(err);
+		res.status(500).send('Įvyko serverio klaida');
+	}
+});
+
+
+
 router.delete('/delete/:id', 
 // adminAuth, 
 async (req, res) => {
 	try {
 		const book = await db.Books.findByPk(req.params.id);
 		await book.destroy();
-		res.send('Knyga ištrintas');
+		res.send('Knyga ištrinta');
 	} catch (err) {
 		console.log(err);
 		res.status(500).send('Įvyko serverio klaida');

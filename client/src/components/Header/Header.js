@@ -30,17 +30,18 @@ const Header = () => {
         <ul className="nav-list">
           {userInfo.id? (
             <>
+                  <li>
+            <Link to="/books" className="nav-link">
+             Visos knygos
+            </Link>
+          </li>
             {userInfo.role === 1 ? <li>
                 <Link to="/admin" className="nav-link">
                   Administratorius
                 </Link>
-              </li> : 
+              </li> 
+              : 
               <>
-          <li>
-            <Link to="/" className="nav-link">
-             Visos knygos
-            </Link>
-          </li>
               <li>
               <Link to="/myAccount" className="nav-link">
                 Mano Paskyra

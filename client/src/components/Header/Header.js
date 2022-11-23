@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 import axios from "axios";
-// import logo from "../../images/logo.jpg";
 import MainContext from "../../context/MainContext";
 
 const Header = () => {

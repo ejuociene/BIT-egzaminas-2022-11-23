@@ -17,7 +17,7 @@
 }
 
 .intro-heading {
-font-size: 36px;
+font-size: 2rem;
 font-weight: 800;
 padding-bottom: 2rem;
 }
@@ -337,4 +337,37 @@ tbody tr:nth-child(odd):hover {
 
 .small-icon {
   width: 50px;
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    margin: 2em 2em;
+  }
+  .form-select {
+    width: 100%;
+    padding: 0.2em .5em;
+    font-size: 1rem;
+  }
+  .narrow-input {
+    width: 14rem;
+    padding: 0.2em .5em;
+  }
+  .search {
+    width: 14rem;
+    padding: 0.2em .5em ; 
+    font-size: 1rem;
+}
+.filter-form {
+  display: flex;
+  flex-direction: column;
+}
+.alert {
+  width: 80%;
+  text-align: center;
+  margin: 1rem auto;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  z-index: 1;
+}
 }

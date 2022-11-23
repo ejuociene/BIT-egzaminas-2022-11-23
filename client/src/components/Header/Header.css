@@ -15,7 +15,7 @@
 }
 
 .logo {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 800;
 }
 
@@ -47,4 +47,10 @@
 
 .nav-icon:hover {
   filter: var(--svg-hover);
+}
+
+@media only screen and (max-width: 600px) {
+  .header {
+    padding-inline: 2em;
+  }
 }
